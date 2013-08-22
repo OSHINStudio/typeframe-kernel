@@ -1,0 +1,48 @@
+html {
+	font-family: Arial, Sans-Serif;
+}
+header {
+	padding-bottom: 0.5em;
+	margin-bottom: 2em;
+	border-bottom: 1px solid silver;
+}
+footer {
+	padding-top: 0.5em;
+	margin-top: 2em;
+	border-top: 1px solid silver;
+}
+header nav, footer nav {
+	clear: both;
+	overflow: hidden;
+}
+header nav ul, footer nav ul {
+	margin: 1em 0 1em 0;
+	padding: 0;
+	clear: both;
+	overflow: hidden;
+}
+header nav ul li, footer nav ul li {
+	float: left;
+	margin-left: 2em;
+	list-style: none;
+}
+table {
+	border-collapse: collapse;
+	margin: 1em 0 1em 0;
+}
+table tr th {
+	background-color: silver;
+	border: 1px solid black;
+	padding: 0.25em;
+}
+table tr td {
+	border: 1px solid black;
+	padding: 0.25em;
+}
+table.fieldset tr th {
+	background-color: none;
+	border: none;
+}
+table.fieldset tr td {
+	border: none;
+}

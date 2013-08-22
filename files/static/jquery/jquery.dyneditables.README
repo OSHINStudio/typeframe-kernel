@@ -1,0 +1,130 @@
+This is a quick 5-minute tutorial of how to use the dyneditables system.
+
+The core parameters are:
+'hascreate'
+	boolean Default: true
+	Controls whether the top 'add new record' row exists.
+
+'sortable'
+	boolean Default:true
+	Controls whether the records are sortable.  Please note, this makes use of the tablednd plugin.
+
+'uploadurl'
+	string Default:null
+	The upload URL for uploading files; this should be @{typef_web_dir}@/admin/dyneditable.
+	The typef_web_dir is not currently visible to javascript, so please set this manually.
+
+'data'
+	Generic Object
+	This is the controlling array of the data structure.
+	
+	'name'
+		string
+		The name of the input set.
+	'columns'
+		array
+		The listing of column definitions.
+	'formname_new'
+		string
+		Name of the input field for newly created records.
+	'formname_del'
+		string
+		Name of the input field for existing, but deleted records.
+	'datatype'
+		string Default:''
+		Set this to the datatype to be submitted in the form.
+		Blank gives standard input fields.
+		'json' converts the records to valid JSON data.
+'images'
+	Generic Object
+	images: {
+		add: "@{skin_path('/buttons/add.png')}@",
+		cancel: "@{skin_path('/buttons/delete.png')}@",
+		del: "@{skin_path('/buttons/delete.png')}@",
+		edit: "@{skin_path('/buttons/edit.png')}@",
+		ok: "@{skin_path('/buttons/selected.png')}@",
+		draghandle: "@{skin_path('/buttons/grip.png')}@"
+	}
+	Currently, javascript doesn't have access to skin_path, so please just use this block.
+	they control which image buttons to use for displaying inline.
+
+
+Column Definitions:
+The column definitions contain various attributes, including:
+'type'
+	string Default:'text'
+	The type of the input field.
+	'text' standard text input.
+	'html' WYSIWYG -- NOT SUPPORTED YET!!!
+	'image' single image uploader.  ** Needs the basedir set **
+	'select' Select Box, requires the options set.
+	'checkbox' Single checkbox option, requires the uncheckedtitle and checkedtitle set.
+'title'
+	string Default: the key name.
+	The title to display along with this column, displayed at the top of the table.
+'key'
+	string
+	The key to lookup and tie with the data with.
+'basedir'
+	string
+	The location (relative to typeframe directory), to upload files to.
+	Please ensure that the path starts with '/' with NO trailing slash.
+'options'
+	Generic Object
+	key/value paired object of the options to display in the dropdown.
+	The key is the value submitted in the form and the value is the title displayed.
+'checkedtitle'
+	string
+	In checkbox types, this is the title displayed when it's checked.
+'uncheckedtitle'
+	string
+	In checkbox types, this is the title displayed when it's unchecked.
+'value'
+	string
+	The value to use with checkbox types.
+'defaultval'
+	string
+	The default value of this field.
+'viewprepend'
+	string
+	Any text to prepend the displayed value; displayed on the view set.
+'editprepend'
+	string
+	Any text to prepend the edited value; displayed on the edit set.
+
+
+
+Example usage:
+
+<script type="text/javascript">
+	$(function(){
+		$('#imagesuploadarea_@{c->name}@').dyneditable(
+			{
+				hascreate: true,
+				sortable: true,
+				uploadurl: '@{typef_web_dir}@/admin/dyneditable',
+				data: {
+					name: 'configs[@{c->name}@]',
+					columns: [
+								{type: 'image', key:'image', basedir:'/files/public/enterprise'},
+								{title:'Field Name', type:'text', key:'fieldname', viewprepend:'', editprepend:''},
+								{title:'Field Type', type:'select', key:'fieldtype', options: {text:'Text', textarea:'Text Area', select:'Select', email:'Email'}, defaultval:'text'},
+								{title:'Values', type:'text', key:'fieldvalues', defaultval:''},
+								{title:'Req.', type:'checkbox', key:'required', checkedtitle:'Yes', uncheckedtitle:'No', value:true}
+							],
+					formname_new: 'new',
+					formname_del: 'del',
+					datatype: 'json'
+				},
+				images: {
+					add: "@{skin_path('/buttons/add.png')}@",
+					cancel: "@{skin_path('/buttons/delete.png')}@",
+					del: "@{skin_path('/buttons/delete.png')}@",
+					edit: "@{skin_path('/buttons/edit.png')}@",
+					ok: "@{skin_path('/buttons/selected.png')}@",
+					draghandle: "@{skin_path('/buttons/grip.png')}@"
+				}
+			}, [<pm:loop name="c->value" as="img" delimiter=",">{image:'@{img}@'}</pm:loop>]
+		);
+	});
+</script>

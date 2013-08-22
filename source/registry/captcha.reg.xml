@@ -1,0 +1,5 @@
+<registry>
+	<application name="Captcha" base="/captcha.jpg" map="hard">
+		<module path="/captcha.jpg" script="/captcha.php" />
+	</application>
+</registry>

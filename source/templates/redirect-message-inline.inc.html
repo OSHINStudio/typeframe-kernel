@@ -1,0 +1,15 @@
+<pm:template>
+	<pm:if expr="globals->session->typef_redirect_message">
+		<pm:scriptonce type="text/javascript" src="@{typef_web_dir}@/files/static/jquery/jquery.js"></pm:scriptonce>
+		<div id="redirect_message" class="alert alert-success" style="margin-top: 100px;">
+			<p>
+				@{globals->session->typef_redirect_message}@
+			</p>
+		</div>
+		<script type="text/javascript">
+			$(document).ready(function(evt) {
+				setTimeout('$("#redirect_message").fadeOut(800);', 2000);
+			});
+		</script>
+	</pm:if>
+</pm:template>

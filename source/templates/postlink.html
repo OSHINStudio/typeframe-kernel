@@ -1,0 +1,18 @@
+<pm:html>
+	<pm:head>
+		<title>Post</title>
+	</pm:head>
+	<pm:body>
+		<p>
+			<strong>The link you followed is trying to submit a post.</strong>
+		</p>
+		<form action="@{path}@" method="post">
+			@{path}@<br/>
+			<pm:loop name="query" as="key value">
+				<input type="hidden" name="@{key}@" value="@{value}@" />@{key}@ = @{value}@<br/>
+			</pm:loop>
+			<input type="submit" value="OK" />
+			<a href="#" onclick="history.go(-1);return false;">Cancel</a>
+		</form>
+	</pm:body>
+</pm:html>

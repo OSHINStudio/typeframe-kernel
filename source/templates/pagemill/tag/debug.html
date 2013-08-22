@@ -1,0 +1,105 @@
+<link rel="stylesheet" href="~/skins/default/styles/debug.css" type="text/css" />
+<script> 
+<![CDATA[$(document).ready(function() {
+
+	$(".debugger").click(function() {
+		var closed = $("#_debug").is(":hidden");
+		if (closed) {
+			$("#_debug").show();
+			$('body').addClass('debugged');
+		} else {
+			$("#_debug").hide();
+			$('body').removeClass('debugged');
+		}
+		setCookie("open", closed, 365);
+	});
+	var openToggle = getCookie("open");
+	if (openToggle == "true") {
+		$("#_debug").show();
+		$('body').addClass('debugged');
+	} else {
+		$("#_debug").hide();
+		$('body').removeClass('debugged');
+	}
+});
+function setCookie(c_name, value, exdays) {
+	var exdate = new Date();
+	exdate.setDate(exdate.getDate() + exdays);
+	var c_value = escape(value) + ((exdays == null) ? "" : "; expires=" + exdate.toUTCString());
+	document.cookie = c_name + "=" + c_value;
+}
+
+function getCookie(c_name) {
+	var i, x, y, ARRcookies = document.cookie.split(";");
+	for (i = 0; i < ARRcookies.length; i++) {
+		x = ARRcookies[i].substr(0, ARRcookies[i].indexOf("="));
+		y = ARRcookies[i].substr(ARRcookies[i].indexOf("=") + 1);
+		x = x.replace(/^\s+|\s+$/g, "");
+		if (x == c_name) {
+			return unescape(y);
+		}
+	}
+}]]> </script>
+<div class="debugger">Debug</div>
+
+		<script type="text/javascript">
+			$(function() {
+				$('.debug-content h2, .debug-content h3').click(
+					function() {
+						$(this).next('ul').toggle();
+					});
+				
+			});
+		</script>
+
+
+<div id="_debug">
+			<div class="time-block">
+		<div class="time-bar-container">
+			<div class="time-bar red">
+				<label>Queries executed: <span class="time">@{querycount}@</span></label>
+			</div>
+		</div>
+		<div class="time-bar-container">
+			<div class="time-bar red">
+				<label>Mem: <span class="time">@{memory_used}@ / (@{memory_used_real}@) Bytes</span></label>
+			</div>
+		</div>
+
+			<pm:if expr="count(timestamps)">
+				<pm:loop name="timestamps" cycle="orange,yellow,green,blue,purple">		
+					<div class="time-bar-container" pm:if="time > 0">
+						<div class="time-bar @{cycle}@">
+							<label>@{action}@ <span class="time">@{round(time,5)}@</span></label> 
+						</div>
+					</div>
+				</pm:loop>
+			</pm:if>
+					</div>
+
+<div class="clear"></div>
+	<div class="debug-content">
+	
+	<h2>
+		Included Scripts
+	</h2>
+	<ul>
+		<li pm:loop="includes file">
+			@{file}@
+		</li>
+	</ul>
+	<h2>
+		Templates
+	</h2>
+	<ul>
+		<li pm:loop="templates file">
+			@{file}@
+		</li>
+	</ul>
+	<h2>
+		Data
+	</h2>
+	@{limit = ''}@
+	<pm:include template="/pagemill/tag/debug-data.inc.html" />
+	</div>
+</div>

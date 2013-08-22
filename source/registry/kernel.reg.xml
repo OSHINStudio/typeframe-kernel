@@ -1,0 +1,99 @@
+<registry>
+	<application name="Kernel" base="/" handler="Typeframe_Application_Handler" map="hard">
+		<class name="Cache" script="cache.class.php"/>
+		<tag name="pm:socket" class="Pagemill_Tag_Socket" />
+		<tag name="pm:scriptonce" class="Pagemill_Tag_Scriptonce" />
+		<trigger path="*" script="/scriptonce.php" when="before" />
+		<tag name="pm:editor" class="Pagemill_Tag_Editor" />
+		<tag name="pm:codeblock" class="Pagemill_Tag_Codeblock" />
+		<tag name="pm:postlink" class="Pagemill_Tag_Postlink" />
+		<tag name="pm:calendar" class="Pagemill_Tag_Calendar" />
+		<tag name="pm:timg" class="Pagemill_Tag_Timg" />
+		<tag name="pm:timglink" class="Pagemill_Tag_TimgLink" />
+		<tag name="pm:stylesheets" class="Pagemill_Tag_Stylesheets" />
+		<tag name="pm:html" class="Pagemill_Tag_Html" />
+		<tag name="pm:head" class="Pagemill_Tag_Head" />
+		<tag name="pm:body" class="Pagemill_Tag_Body" />
+		<tag name="pm:import" class="Pagemill_Tag_Import" />
+		<tag name="pm:section" class="Pagemill_Tag_Section" />
+		<tag name="pm:header" class="Pagemill_Tag_Header" />
+		<tag name="pm:include" class="Pagemill_Tag_IncludeTemplate" />
+		<tag name="pm:plugin" class="Pagemill_Tag_Plugin" />
+		<tag name="pm:imageupload" class="Pagemill_Tag_ImageUpload" />
+		<tag name="pm:fileupload" class="Pagemill_Tag_FileUpload" />
+		<style path="*" stylesheet="/_reset.css" />
+		<style path="*" stylesheet="/style.css" />
+		<class name="DAO" script="dao.class.php"/>
+		<class name="DAOFactory" script="dao.class.php"/>
+		<class name="DAOForeignFactory" script="dao.class.php"/>
+		<class name="DAOLinkFactory" script="dao.class.php"/>
+		<class name="DAOException" script="dao.class.php"/>
+		<class name="DAONodeHandler" script="dao.class.php"/>
+		<class name="DAO_Revision" script="dao.class.php"/>
+		<class name="JSON_DAO" script="json.dao.class.php" />
+		<config name="Kernel">
+			<item name="TYPEF_TITLE" caption="Web Site Name/Title" type="text" default="Untitled Web Site" />
+			<!--@<item name="TYPEF_HOST" caption="Host Name" type="text" default="" />@-->
+			<item name="TYPEF_DEFAULT_CHARSET" caption="Default database character set" type="text" default="utf8" />
+			<item name="TYPEF_DEFAULT_COLLATION" caption="Default database collation" type="text" default="utf8_unicode_ci" />
+			<item name="TYPEF_DEFAULT_DATE_FORMAT" caption="Default date format" type="text" default="n-j-Y" />
+			<item name="TYPEF_DEFAULT_DATE_TIME_FORMAT" caption="Default date/time format" type="text" default="n-j-Y g:i A" />
+			<item name="TYPEF_DEFAULT_DATE_TIME_FORMAT_WITH_SECONDS" caption="Default date/time format (with seconds)" type="text" default="n-j-Y g:i:s A" />
+			<item name="TYPEF_TIMEZONE" caption="Time Zone (leave blank to use server setting)" type="text" default="" />
+			<item name="TYPEF_DEFAULT_EDITOR" caption="Default Editor (will try CKEditor if blank)" type="text" default="" />
+			<item name="TYPEF_DEFAULT_REDIRECT_TIME" caption="Default Redirect Behavior" default="1" type="select">
+				<option value="-1" caption="Wait for user" />
+				<option value="0" caption="Redirect immediately" />
+				<option value="1" caption="Pause for 1 second" />
+			</item>
+			<item name="TYPEF_JS_MINIFIED" caption="Try to use minified javascript versions" default="1" type="select">
+				<option value="0" caption="No, only use development versions." />
+				<option value="1" caption="Yes, try to use the minified versions (Recommended for Production)." />
+			</item>
+		</config>
+		<config name="Debug">
+			<item name="TYPEF_DEBUG_LEGACY_CLASS_ERRORS" caption="Trigger errors on legacy class loads (recommended for development only)" type="boolean" default="0" />
+			<item name="TYPEF_DEBUG" caption="Display debug info on web pages" type="select" default="none">
+				<option value="none" caption="Never display" />
+				<option value="admin" caption="Display for administrators" />
+				<option value="all" caption="Display for all users" />
+			</item>
+		</config>
+		<!--trigger path="*" script="/kernel.php" />-->
+		<trigger path="*" script="/globals.php" when="before" />
+		<class name="CSSParser" script="cssparser.class.php" />
+	</application>
+	<application name="Postlink" base="/postlink" map="hard">
+	</application>
+	<application name="SMTP">
+		<config name="SMTP">
+			<item name="TYPEF_MAILER_SENDER" caption="Sender's address for automated messages" type="text" default="" />
+			<item name="TYPEF_MAILER_NAME" caption="Sender's name for automated messages" type="text" default="" />
+			<item name="TYPEF_MAILER_METHOD" caption="Mailer method" type="select" default="mail">
+				<option value="mail" caption="mail() function" />
+				<option value="SMTP" caption="SMTP connection" />
+			</item>
+			<item name="TYPEF_MAILER_HOST" caption="Host name (for SMTP connection method)" type="text" default="" />
+			<item name="TYPEF_MAILER_AUTH" caption="Use authentication (for SMTP connection method)" type="boolean" default="0" />
+			<item name="TYPEF_MAILER_USERNAME" caption="User name (for SMTP authentication)" type="text" default="" />
+			<item name="TYPEF_MAILER_PASSWORD" caption="Password (for SMTP authentication)" type="text" default="" />
+			<item name="TYPEF_MAILER_SECURE" caption="Security (for SMTP authentication)" type="select" default="">
+				<option value="" caption="None" />
+				<option value="ssl" caption="SSL" />
+				<option value="tls" caption="TLS" />
+			</item>
+		</config>
+	</application>
+	<application name="Skins Admin" title="Skins" icon="skins.gif" base="/admin/skins" map="hard" category="Site">
+		<exprfunc name="skin_path" func="skin_path" />
+		<config name="Skins" redirect="/admin/skins">
+			<item name="TYPEF_SITE_SKIN" caption="Site skin" type="text" default="default" />
+			<item name="TYPEF_ADMIN_SKIN" caption="Admin skin" type="text" default="default" />
+			<item name="TYPEF_USE_MOBILE_SKINS" caption="Enable mobile skins" type="boolean" default="0" />
+			<item name="TYPEF_MOBILE_SITE_SKIN" caption="Mobile site skin" type="text" default="default" />
+			<item name="TYPEF_MOBILE_ADMIN_SKIN" caption="Mobile admin skin" type="text" default="default" />
+			<item name="TYPEF_LESS" caption="Try to use LESS versions of registered stylesheets" default="1" type="boolean" />
+		</config>
+		<!--<trigger path="*" script="/skin_path.php" when="before" />-->
+	</application>
+</registry>

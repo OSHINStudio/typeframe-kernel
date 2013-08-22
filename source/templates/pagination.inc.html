@@ -1,0 +1,50 @@
+<pm:template xmlns:pm="http://typeframe.com/pagemill">
+	<pm:if expr="pagination->totalpages &gt; 1">
+		<div class="pagination">
+			<ul>
+				<pm:if expr="pagination->page &gt; 1">
+					<li><a><pm:attribute name="href"><pm:if expr="contains(pagination->pagedurl, '?')">@{pagination->pagedurl}@&amp;page=1</pm:if><pm:if expr="!contains(pagination->pagedurl, '?')">@{pagination->pagedurl}@?page=1</pm:if></pm:attribute>First</a></li>
+					<li><a><pm:attribute name="href"><pm:if expr="contains(pagination->pagedurl, '?')">@{pagination->pagedurl}@&amp;page=@{pagination->page - 1}@</pm:if><pm:if expr="!contains(pagination->pagedurl, '?')">@{pagination->pagedurl}@?page=@{pagination->page - 1}@</pm:if></pm:attribute>Prev</a></li>
+				</pm:if>
+				<pm:else>
+					<li class="disabled"><a href="#">First</a></li>
+					<li class="disabled"><a href="#">Prev</a></li>
+				</pm:else>
+				<pm:loop times="@{pagination->totalpages &gt; 10 ? 10 : pagination->totalpages}@">
+					<pm:if expr="pagination->totalpages &gt; 10">
+						<pm:choose>
+							<pm:when expr="pagination->page &lt; 5">
+								@{curpage = loop_index + 1}@
+							</pm:when>
+							<pm:when expr="page + 5 &gt; totalpages">
+								@{curpage = pagination->totalpages - 11 + loop_index}@
+							</pm:when>
+							<pm:otherwise>
+								@{curpage = pagination->page + loop_index - 2}@
+							</pm:otherwise>
+						</pm:choose>
+					</pm:if>
+					<pm:else>
+						@{curpage = loop_index + 1}@
+					</pm:else>
+					<pm:choose>
+						<pm:when expr="curpage == pagination->page">
+							<li class="disabled num"><a href="#">@{curpage}@</a></li>
+						</pm:when>
+						<pm:otherwise>
+							<li class="num"><a><pm:attribute name="href"><pm:if expr="contains(pagination->pagedurl, '?')">@{pagination->pagedurl}@&amp;page=@{curpage}@</pm:if><pm:if expr="!contains(pagination->pagedurl, '?')">@{pagination->pagedurl}@?page=@{curpage}@</pm:if></pm:attribute>@{curpage}@</a></li>
+						</pm:otherwise>
+					</pm:choose>
+				</pm:loop>
+				<pm:if expr="pagination->page &lt; pagination->totalpages">
+					<li><a class="next"><pm:attribute name="href"><pm:if expr="contains(pagination->pagedurl, '?')">@{pagination->pagedurl}@&amp;page=@{pagination->page + 1}@</pm:if><pm:if expr="!contains(pagination->pagedurl, '?')">@{pagination->pagedurl}@?page=@{pagination->page + 1}@</pm:if></pm:attribute>Next</a></li>
+					<li><a><pm:attribute name="href"><pm:if expr="contains(pagination->pagedurl, '?')">@{pagination->pagedurl}@&amp;page=@{pagination->totalpages}@</pm:if><pm:if expr="!contains(pagination->pagedurl, '?')">@{pagination->pagedurl}@?page=@{pagination->totalpages}@</pm:if></pm:attribute>Last</a></li>
+				</pm:if>
+				<pm:else>
+					<li class="disabled"><a href="#">Next</a></li>
+					<li class="disabled"><a href="#">Last</a></li>
+				</pm:else>
+			</ul>
+		</div>
+	</pm:if>
+</pm:template>

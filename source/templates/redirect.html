@@ -1,0 +1,24 @@
+<pm:html xmlns="http://www.w3.org/1999/xhtml" xmlns:pm="http://typeframe.com/pagemill" skin="tf6">
+	<pm:head>
+		<title>Redirect</title>
+		<pm:if expr="time &gt; 0"><meta http-equiv="Refresh" content="@{time}@;URL=@{url}@" /></pm:if>
+	</pm:head>
+	<pm:body>
+		<div id="redirect">
+			<p id="message">
+				@{message}@
+			</p>
+			<pm:if expr="time &lt;= 0">
+				<p>
+					<a href="@{url}@">Continue</a>
+				</p>
+			</pm:if>
+			<pm:if expr="time &gt; 0">
+				<p class="alert alert-success">
+					You will be redirected momentarily, or you can
+					<a href="@{url}@">click here</a> to continue.
+				</p>
+			</pm:if>
+		</div>
+	</pm:body>
+</pm:html>

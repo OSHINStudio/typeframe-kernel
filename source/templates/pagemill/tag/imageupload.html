@@ -1,0 +1,42 @@
+<pm:template xmlns="http://www.w3.org/1999/xhtml" xmlns:pm="http://typeframe.com/pagemill">
+	<div id="@{id}@">
+		<!--@ This will tack on any user attributes to the div @-->
+		<pm:attribute pm:loop="attributes a" name="@{a->name}@" parent="div">@{a->value}@</pm:attribute>
+		<pm:if expr="value">
+			<div class="imageuploadlabel" style="float:left; margin-right:0.15em;">
+				<input type="radio" name="@{name}@_fileuploadoption" value="@{value}@" checked="checked" style="vertical-align:top;"/>
+				Current
+				<pm:timg src="@{dir}@/@{value}@" width="@{imgwidth}@" height="@{imgheight}@" ratio="ratio" />
+			</div>
+			<div class="imageuploadlabel" style="float:left; margin-right:0.15em;">
+				<input type="radio" name="@{name}@_fileuploadoption" value="" /> None
+			</div>
+			<div class="imageuploadlabel" style="float:left; margin-right:0.15em;">
+				<input type="radio" name="@{name}@_fileuploadoption" value="_upload" /> Upload New
+				<input type="file" name="@{name}@" />
+			</div>
+
+			<script type="text/javascript">
+				$(function(){
+					$('#@{id}@ input[type="radio"]:checked').closest('div.imageuploadlabel').css('background', '#cccccc');
+					$('#@{id}@ input[type="file"]').hide();
+					$('#@{id}@ input[type="radio"]').click(function(event) {
+						$(this).closest('#@{id}@').find('div.imageuploadlabel').css('border', 'none');
+						$(this).closest('div.imageuploadlabel');
+						if ($(this).val() == '_upload') {
+							$(this).closest('#@{id}@').find('input[type="file"]').show();
+						} else {
+							$(this).closest('#@{id}@').find('input[type="file"]').hide();
+						}
+					});
+				});
+			</script>
+		</pm:if>
+		<pm:else>
+			<input type="hidden" name="@{name}@_fileuploadoption" value="_upload" />
+			<input type="file" name="@{name}@"/>
+		</pm:else>
+		
+		<div class="clear"></div>
+	</div>
+</pm:template>

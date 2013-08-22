@@ -1,0 +1,36 @@
+<pm:scriptonce type="text/javascript" src="@{typef_web_dir}@/files/static/jquery/jquery.js"></pm:scriptonce>
+<pm:scriptonce type="text/javascript" src="@{typef_web_dir}@/files/static/jquery/jquery-ui.js"></pm:scriptonce>
+<link rel="stylesheet" type="text/css" href="@{skin_path('/styles/jqueryui/base/ui.all.css')}@" />
+<link rel="stylesheet" type="text/css" href="@{skin_path('/styles/jqueryui/custom-theme/ui.all.css')}@" />
+<pm:if expr="!ajaxie">
+	<pm:scriptonce type="text/javascript" src="@{typef_web_dir}@/files/static/jquery/jquery-ui.timepicker.js"></pm:scriptonce>
+</pm:if>
+<input type="text" name="@{name}@" id="@{id}@" value="@{value}@" style="@{style}@" />
+<script type="text/javascript">
+	$(function() {
+		var value = $('#@{id}@').val();
+		$('#@{id}@').attr('name', '');
+		$('#@{id}@').after('<input type="hidden" name="@{name}@" value="' + value + '" />');
+		$('#@{id}@').datetimepicker({
+			/*controlType: 'select',*/
+			showTimepicker: @{showtime}@,
+			timeFormat: 'hh:mm tt',
+			altField: 'input[name="@{name}@"]',
+			altFieldTimeOnly: false,
+			altFormat: 'yy-mm-dd',
+			altTimeFormat: 'HH:mm:ss'
+		});
+		<pm:if expr="value">
+		$('#@{id}@').datetimepicker('setDate', new Date('@{date('F j, Y', value)}@'));
+		</pm:if>
+		$('#@{id}@').change(function(evt) {
+			if ($('#@{id}@').val() == '') {
+				$('input[name="@{name}@"]').val('');
+				evt.preventDefault();
+			}
+		});
+		// Hiding the datepicker is necessary due to a bug that leaves its empty
+		// container's border visible before it's been opened.
+		$('.ui-datepicker').hide();
+	});
+</script>

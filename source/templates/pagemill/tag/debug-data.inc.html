@@ -1,0 +1,22 @@
+<ul>
+	<pm:loop name="data" as="key value" limit="@{limit}@">
+		@{limit = 10}@
+		<li pm:if="key !== 'loop_index'">
+			@{key}@ => @{is_scalar(value) ? shorten(value) : value}@
+			<pm:if expr="!is_scalar(value)">
+				@{data = value}@
+				<pm:recurse head="ul" />
+			</pm:if>
+		</li>
+	</pm:loop>
+	<li pm:if="limit &amp;&amp; count(data) > limit">
+		<em>(@{count(data) - limit}@ items truncated for depth)</em>
+	</li>
+</ul>
+<pm:loop name="tines">
+	<h3>
+		Fork #@{loop_index}@
+	</h3>
+	@{limit = ''}@
+	<pm:include template="/pagemill/tag/debug-data.inc.html" />
+</pm:loop>

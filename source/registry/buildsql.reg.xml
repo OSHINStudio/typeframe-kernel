@@ -1,0 +1,8 @@
+<registry>
+	<application name="BuildSql">
+		<class name="BuildSqlSelect" script="buildsql.class.php" />
+		<class name="BuildSqlInsert" script="buildsql.class.php" />
+		<class name="BuildSqlUpdate" script="buildsql.class.php" />
+		<class name="BuildSqlDelete" script="buildsql.class.php" />
+	</application>
+</registry>

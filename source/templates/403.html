@@ -1,0 +1,68 @@
+<pm:html>
+	<pm:head>
+		<title>Access Denied!</title>
+		<style type="text/css">
+		body {background:url('@{typef_web_dir}@/skins/tf6/images/bg-body-fiber.png');}
+			header {display: none;}
+			.content {
+				border-radius: 5px;
+				position: relative;
+				width: 850px;
+				bottom: auto;
+				padding-bottom: 0px;
+				margin: 0 auto;
+				left: auto;
+				box-shadow: 0 1px 2px rgba(0,0,0,.4);
+			}
+			@-webkit-keyframes fadein { /* Safari and Chrome */
+			    from {
+			        opacity:0;
+			        margin-top: 30px;
+			        text-shadow: 0 0 25px #000,0 0 100px #000;
+			        width: 820px;
+			        
+			    }
+			    to {
+			        opacity:1;
+			        margin-top: 0;
+			        text-shadow: none;
+			        width: 850px;
+			    }
+			}
+			
+			.content {
+			    -webkit-animation: fadein 1s; /* Safari and Chrome */
+			}
+
+		</style>
+	</pm:head>
+	<pm:body>
+		<pm:if expr="typef_session_userid">
+			<p>
+				Your user account does not have access to this page.  If you think you are receiving this
+				message in error, please contact a system administrator.
+			</p>
+			<p>
+				<a href="~/login?post_redir=@{type_request_uri}@">Log in as different user</a>
+			</p>
+		</pm:if>
+		<pm:else>
+			<div class="hero-unit login">
+				<div class="span6">
+					<h1>TypeFrame</h1>
+					<p style="text-align:right; padding-right: 40px;">by blindacre*</p>
+				</div>
+				<div class="span6">
+					<div id="login-main">
+						@{post_redir = typef_request_uri}@
+						<pm:include template="/users/loginform.inc.html" />
+					</div>
+				</div>
+				<script type="text/javascript">
+				$('input.text[name="username"]').focus();
+				</script>
+				<div class="clear"></div>
+			</div>
+		</pm:else>
+	</pm:body>
+</pm:html>
